@@ -37,6 +37,17 @@ sprint:
   pop edx 
   ret 
 
+; sprintLF linefeed
+sprintLF:
+  call sprint
+  push eax 
+  mov  eax, 0x0a
+  push eax,
+  mov  eax, esp 
+  call sprint
+  pop  eax 
+  pop  eax 
+  ret 
 
 ; void exit 
 quit:
