@@ -10,6 +10,7 @@ _start:
 
 nextNumber: 
   inc ecx 
+  
   mov eax, ecx 
   call iprintLF
   cmp ecx, 10
