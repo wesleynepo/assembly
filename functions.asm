@@ -90,11 +90,11 @@ slen:
 
 nextchar: 
   cmp byte [eax], 0
-  jz finished
+  jz .finished
   inc eax
   jmp nextchar
 
-finished:
+.finished:
   sub eax, ebx
   pop ebx
   ret 
