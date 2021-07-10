@@ -4,6 +4,9 @@ SECTION .data
 filename db 'readme.txt', 0h
 contents db 'Hello world!', 0h
 
+SECTION .bss
+fileContents  resb 255,
+
 SECTION .text
 global _start
 
@@ -25,5 +28,13 @@ _start:
   mov eax, 5
   int 80h
 
-  call iprintLF
+  mov edx, 12
+  mov ecx, fileContents
+  mov ebx, eax 
+  mov eax, 3 
+  int 80h
+
+  mov eax, fileContents
+  call sprintLF
+
   call quit 
