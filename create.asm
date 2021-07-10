@@ -20,4 +20,10 @@ _start:
   mov eax, 4
   int 80h
 
+  mov ecx, 0
+  mov ebx, filename
+  mov eax, 5
+  int 80h
+
+  call iprintLF
   call quit 
