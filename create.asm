@@ -37,4 +37,8 @@ _start:
   mov eax, fileContents
   call sprintLF
 
+  mov ebx, ebx
+  mov eax, 6
+  int 80h
+
   call quit 
