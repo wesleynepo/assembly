@@ -1,5 +1,11 @@
 %include 'functions.asm'
 
+SECTION .bss
+buffer resb 255,
+
+SECTION .data
+response db 'HTTP/1.1 200 OK', 0Dh, 0Ah, 'Content-Type: text/html', 0Dh, 0Ah, 'Content-Length: 14', 0Dh, 0Ah, 0Dh, 0Ah, 'Hello World!', 0Dh, 0Ah, 0h
+
 SECTION .text
 global _start
 
@@ -33,6 +39,61 @@ _bind:
   mov ecx, esp
   mov ebx, 2
   mov eax, 102
+  int 80h
+
+_listen:
+
+  push byte 1
+  push edi
+  mov ecx, esp
+  mov ebx, 4
+  mov eax, 102
+  int 80h
+
+_accept:
+
+  push byte 0
+  push byte 0
+  push edi
+  mov ecx, esp
+  mov ebx, 5
+  mov eax, 102
+  int 80h
+  
+_fork:
+
+  mov esi,eax
+  mov eax, 2
+  int 80h
+
+  cmp eax, 0
+  jz _read 
+
+  jmp _accept
+
+_read:
+
+  mov edx, 255
+  mov ecx, buffer
+  mov ebx, esi
+  mov eax, 3
+  int 80h
+
+  mov eax, buffer
+  call sprintLF
+
+_write:
+
+  mov edx, 78
+  mov ecx, response
+  mov ebx, esi
+  mov eax, 4
+  int 80h
+
+_close:
+
+  mov ebx, esi
+  mov eax, 6
   int 80h
 
 _exit:
